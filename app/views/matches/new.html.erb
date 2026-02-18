@@ -1,30 +1,38 @@
-<h1>Record Match Result</h1>
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Record Match Result</h4>
+      </div>
+      <div class="card-body">
+        <% if @match.errors.any? %>
+          <div class="alert alert-danger">
+            <h5 class="alert-heading"><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h5>
+            <ul class="mb-0">
+              <% @match.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-<% if @match.errors.any? %>
-  <div style="color: red">
-    <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h2>
-    <ul>
-      <% @match.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+        <%= form_with(model: @match, url: matches_path, local: true, data: { turbo: false }) do |form| %>
+          <div class="mb-3">
+            <%= form.label :winner_id, "Winner", class: "form-label fw-bold" %>
+            <%= form.collection_select :winner_id, @players, :id, :name, { prompt: "Select Winner" }, { class: "form-select", required: true } %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :loser_id, "Loser", class: "form-label fw-bold" %>
+            <%= form.collection_select :loser_id, @players, :id, :name, { prompt: "Select Loser" }, { class: "form-select", required: true } %>
+          </div>
+
+          <div class="d-grid gap-2">
+            <%= form.submit "Record Match", class: "btn btn-success btn-lg" %>
+            <%= link_to "Cancel", matches_path, class: "btn btn-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-<% end %>
-
-<%= form_with(model: @match, url: matches_path, local: true, data: { turbo: false }) do |form| %>
-  <div>
-    <%= form.label :winner_id, "Winner" %>
-    <%= form.collection_select :winner_id, @players, :id, :name, prompt: "Select Winner", required: true %>
-  </div>
-
-  <div>
-    <%= form.label :loser_id, "Loser" %>
-    <%= form.collection_select :loser_id, @players, :id, :name, prompt: "Select Loser", required: true %>
-  </div>
-
-  <div>
-    <%= form.submit "Record Match" %>
-  </div>
-<% end %>
-
-<%= link_to "Back to Matches", matches_path %>
+</div>
