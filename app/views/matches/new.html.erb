@@ -1,0 +1,30 @@
+<h1>Record Match Result</h1>
+
+<% if @match.errors.any? %>
+  <div style="color: red">
+    <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being saved:</h2>
+    <ul>
+      <% @match.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @match, url: matches_path, local: true, data: { turbo: false }) do |form| %>
+  <div>
+    <%= form.label :winner_id, "Winner" %>
+    <%= form.collection_select :winner_id, @players, :id, :name, prompt: "Select Winner", required: true %>
+  </div>
+
+  <div>
+    <%= form.label :loser_id, "Loser" %>
+    <%= form.collection_select :loser_id, @players, :id, :name, prompt: "Select Loser", required: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Record Match" %>
+  </div>
+<% end %>
+
+<%= link_to "Back to Matches", matches_path %>

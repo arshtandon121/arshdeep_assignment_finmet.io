@@ -1,0 +1,47 @@
+<h1>Players</h1>
+
+<div class="player-form">
+  <h2>Add New Player</h2>
+  <%= form_with(model: @player, url: players_path, local: true, data: { turbo: false }) do |form| %>
+    <div>
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+      <%= form.submit "Add Player" %>
+    </div>
+  <% end %>
+</div>
+
+<hr>
+
+<h2>All Players</h2>
+
+<% if @players.any? %>
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Win Rate</th>
+        <th>Matches Played</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <tr>
+          <td><%= player.name %></td>
+          <td><%= player.wins %></td>
+          <td><%= player.losses %></td>
+          <td><%= player.win_rate %>%</td>
+          <td><%= player.total_matches %></td>
+          <td>
+            <%= button_to "Delete", player_path(player), method: :delete, data: { confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No players found.</p>
+<% end %>
