@@ -16,3 +16,6 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 end
+
+gem "capybara", "~> 3.40", :group => :test
+gem "selenium-webdriver", "~> 4.41", :group => :test
